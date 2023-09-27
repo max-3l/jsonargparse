@@ -41,7 +41,7 @@ from ._actions import (
 from ._common import is_dataclass_like, is_subclass, lenient_check, parser_context
 from ._deprecated import ParserDeprecations
 from ._formatters import DefaultHelpFormatter, empty_help, get_env_var
-from ._jsonnet import ActionJsonnet, ActionJsonnetExtVars
+from ._jsonnet import ActionJsonnet
 from ._jsonschema import ActionJsonSchema
 from ._link_arguments import ActionLink, ArgumentLinking
 from ._loaders_dumpers import (
@@ -1290,7 +1290,7 @@ class ArgumentParser(ParserDeprecations, ActionsContainer, ArgumentLinking, argp
             if isinstance(action, _ActionConfigLoad):
                 config_keys.add(action_dest)
                 keys.append(action_dest)
-            elif isinstance(action, ActionJsonnetExtVars):
+            elif getattr(action, "jsonnet_ext_vars", False):
                 prev_cfg[action_dest] = value
             cfg[action_dest] = value
         return cfg[parent_key] if parent_key else cfg
